@@ -11,113 +11,58 @@ jQuery(document).ready(function ($) {
   $("form").submit(function (event) {
     console.log($(this).serializeArray());
     novo = $(this).serializeArray();
-    gravandoFuncionario(novo);
+    gravarFuncionario(novo);
   });
 
-  function gravandoFuncionario(f) {
-    // transformando em string novamente
-    str = JSON.stringify(funcionarios);
-    // usando regex para pegar o ultimo } e paga-lo
-    //localStorage['funcionarios'] = str.replace(/}$/g, ", ");
-    str = str.replace(/}$/g, ", ");
-    // contando quantos funcionarios salvo tem
-    ultimo = countFuncionario(funcionarios);
-    ultimo += 1;
+  function gravarFuncionario(f){
     nome = f[0].value;
     bruto = f[1].value;
     dep = f[2].value;
-    // nova string para adicionar um novo funcionario
     vamos = {
-      ultimo: {
         "nome": nome,
         "bruto": bruto,
         "dep": dep
-      }
-    };
+      };
 
-    vamos = JSON.stringify(vamos);
-    vamos = vamos.replace(/}$/g, "");
-    vamos = vamos.replace(/^{/g, "");
-    localStorage['funcionarios'] = str + vamos + "}";
+    let x = localStorage.length + 1;
+    localStorage[x] = JSON.stringify(vamos);
   }
+
   // Tentando pegar dados passados
-  try {
-    if (localStorage.getItem("funcionarios") == null) {
-      padraoFuncionario();
+  try{
 
-      funcionarios = JSON.parse(localStorage.getItem("funcionarios"));
-      console.log("Funcionarios recuperados pelo LocalStorage");
-      console.table(funcionarios);
+    if( (localStorage[0] == null) && (localStorage[1] == null) ) {
+      comecarFuncionario();
     }
-  } catch (e) {
-    padraoFuncionario();
-  }
-
-  // function comecarFuncionario(){
-  //   funcionarios = {
-  //     0: {
-  //       "nome": "Ricardo",
-  //       "bruto": "3500",
-  //       "dep": "2"
-  //     }
-  //   };
-  //   localStorage.setItem(0, JSON.stringify(funcionarios));
-  //   funcionarios = {
-  //     1: {
-  //       "nome": "Sabrina",
-  //       "bruto": "9000",
-  //       "dep": "1"
-  //     }
-  //   };
-  //   localStorage.setItem(2, JSON.stringify(funcionarios));
-  //   console.log("Salvando funcionarios padrão no LocalStorage");
-  // }
-
+    console.log("Ta tudo certo");
+    loopFuncionario();
+  }catch(e){
+    comecarFuncionario();
+  };
+  
   // Gerando dados padrão
-  function padraoFuncionario() {
-    funcionarios = {
-      0: {
+  function comecarFuncionario(){
+    funcionarios ={ 
         "nome": "Ricardo",
         "bruto": "3500",
         "dep": "2"
-      },
-      1: {
+      };
+    localStorage.setItem(0, JSON.stringify(funcionarios));
+    funcionarios = {
         "nome": "Sabrina",
         "bruto": "9000",
         "dep": "1"
-      }
-    };
-
-    localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
+      };
+    localStorage.setItem(1, JSON.stringify(funcionarios));
     console.log("Salvando funcionarios padrão no LocalStorage");
-    console.table(funcionarios);
   }
 
-  // Começando de verdade a logica
-  // var funcionarios = JSON.parse(localStorage.getItem("funcionarios"));
-  var funcionarios = JSON.parse(localStorage["funcionarios"]);
-  loopFuncionario(funcionarios);
-
-  // Loop para achar a quantidade de indices/funcionarios que tem na array
-  // um arranjo tecnico pois o JSON.parse tem um problema com converção
-  function loopFuncionario(f) {
-    for (let i = 0; i < 10; i++) {
-      if (f[i] != undefined) {
-        mostrarFuncionario(f[i]);
-      } else {
-        return i;
-      }
+  // Buscando funcionarios
+  function loopFuncionario(){
+    for (let i = 0; i <= localStorage.length; i++) {
+      mostrarFuncionario(JSON.parse(localStorage[i]));      
     }
-  };
-
-  function countFuncionario(f) {
-    for (let i = 0; i < 10; i++) {
-      if (f[i] != undefined) {
-        console.log(i + "º Funcionario")
-      } else {
-        return i;
-      }
-    }
+    console.log("Loop de apresentação feito");
   }
 
   // Apenas imprimir os funcionarios na tabela
