@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Folha de Pagamento</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
+
 <body>
   <nav>
     <div class="nav-wrapper cyan">
@@ -32,7 +34,7 @@
               <label for="func_name">Nome do funcionário</label>
             </div>
             <div class="input-field col s6">
-              <input id="salariob" type="number" name="salariob"  min="0" class="validate">
+              <input id="salariob" type="number" name="salariob" min="0" class="validate">
               <label for="salariob">Salário bruto</label>
             </div>
             <div class="input-field col s6">
@@ -44,7 +46,7 @@
             <i class="material-icons right">send</i>
           </button>
         </form>
-      </div> 
+      </div>
     </div>
   </div>
   <div class="parallax-container">
@@ -53,17 +55,32 @@
   <div class="section white" id="resultados">
     <div class="row container">
       <h2 class="header">Tabela de funcionários</h2>
+      <table name="tabelaFuncionario" class="stripped">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Salário Bruto</th>
+            <th>Nº de dependentes</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Funcionarios -->
+        </tbody>
+      </table>
     </div>
   </div>
   <footer class="page-footer cyan" id="integrantes">
     <div class="footer-copyright cyan">
       <div class="container">
-      Integrantes - Marcos Estevão, Matheus Gonçalves e Victor Luã - ADS 2 Noturno - Fatec PG
+        Integrantes - Marcos Estevão, Matheus Gonçalves e Victor Luã - ADS 2 Noturno - Fatec PG
       </div>
     </div>
   </footer>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
+  <!-- <script src="https://raw.github.com/openexchangerates/accounting.js/master/accounting.min.js"></script> -->
   <script src="js/init.js"></script>
 </body>
+
 </html>
