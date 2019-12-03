@@ -47,23 +47,69 @@ jQuery(document).ready(function ($) {
   var funcionarios = JSON.parse(localStorage["funcionarios"]);
   loopFuncionario(funcionarios);
 
+  // Loop para achar a quantidade de indices/funcionarios que tem na array
+  // um arranjo tecnico pois o JSON.parse tem um problema com converção
   function loopFuncionario(f) {
     for (let i = 0; i < 20; i++) {
       if(f[i] != undefined){
-        mostrarFuncionario(f[i].nome, f[i].bruto, f[i].dep);
+        mostrarFuncionario(f[i]);
       }else{
         return i;
       }     
     }
   };
 
-  function mostrarFuncionario(nome, bruto, dep) {
+  // Apenas imprimir os funcionarios na tabela
+  function mostrarFuncionario(f) {
+    inss = calculoINSS(f.bruto);
+    irrf = calculoIRRF(f.bruto, inss);
+    liquido = f.bruto - inss - irrf;
+
     html = "<tr>";
-    html += "<td>" + nome + "</td>";
-    html += "<td>" + bruto + "</td>";
-    html += "<td>" + dep + "</td>";
+    html += "<td>" + f.nome + "</td>";
+    html += "<td>" + f.bruto + "</td>";
+    html += "<td>" + f.dep + "</td>";
+    html += "<td>" + inss + "</td>";
+    html += "<td>" + irrf + "</td>";
+    html += "<td>" + liquido + "</td>";
     html += "</tr>";
 
     $("#resultados > div > table > tbody ").append(html)
   };
+
+  // Calculo feito a parti da tabela do contribuinte
+  function calculoINSS(n){
+    if(n <= 1399.12){
+      return n*0.08;
+    }
+    if((n >= 1399.12) && (n <= 2331.88)){
+      return n*0.09;
+    }
+    if((n >= 2331.88) && (n <= 4663.75)){
+      return n*0.11;
+    }
+  }
+
+  function calculoIRRF(salario,inss){
+    faixa = salario - inss;
+    return tabelaIRRF(faixa);
+  }
+
+  function tabelaIRRF(valor){
+    if(valor <= 1903.98){
+      return 0;
+    }
+    if((valor >= 1903.99) && (valor <= 2826.65)){
+      return valor*0.0750-142.80;
+    } 
+    if((valor >= 2826.65) && (valor <= 3751.05)){
+      return valor*0.15-354.80;
+    }
+    if((valor >= 3751.05) && (valor <= 4664.68)){
+      return valor*0.2250-636.13;
+    }
+    if((valor >= 4664.68) && (valor <= 2826.65)){
+      return valor*0.2750-869.36;
+    }
+  }
 });
