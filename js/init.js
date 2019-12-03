@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
   function excluirFuncionario(f){
     localStorage.removeItem(f);
   }
-  
+
   // Tentando pegar dados passados
   try{
     if( (localStorage[0] == null) && (localStorage[1] == null) ) {
@@ -74,8 +74,9 @@ jQuery(document).ready(function ($) {
   function mostrarFuncionario(f) {
     bruto = accounting.formatMoney(f.bruto, "R$", 2, ".", ",");
     inss = accounting.formatMoney(calculoINSS(f.bruto), "R$", 2, ".", ",");
-    irrf = accounting.formatMoney(calculoIRRF(f.bruto, inss), "R$", 2, ".", ",");
-    liquido = (f.bruto - calculoINSS(f.bruto) - calculoIRRF(f.bruto, inss));
+    irrf = accounting.formatMoney(calculoIRRF(f.bruto, calculoINSS(f.bruto)), "R$", 2, ".", ",");
+    liquido = parseFloat(f.bruto) - calculoINSS(f.bruto) - calculoIRRF(f.bruto, calculoINSS(f.bruto));
+    liquido = accounting.formatMoney(liquido, "R$", 2, ".", ",");
     inssPatri = accounting.formatMoney(calculoInssPatri(f.bruto), "R$", 2, ".", ",");
     fgts = accounting.formatMoney(calculoFGTS(f.bruto), "R$", 2, ".", ",");
     guiaInss = accounting.formatMoney(calculoGuiaInss(f.bruto), "R$", 2, ".", ",");
