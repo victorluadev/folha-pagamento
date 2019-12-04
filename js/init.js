@@ -36,17 +36,20 @@ jQuery(document).ready(function ($) {
 
   // Tentando pegar dados passados
   try {
-    if ((localStorage[0] == null) && (localStorage[1] == null)) {
-      //comecarFuncionario();
+    if (localStorage["start"] != "yes") {
+      comecarFuncionario();
     }
     console.log("Ta tudo certo");
     loopFuncionario();
   } catch (e) {
-    //comecarFuncionario();
+    comecarFuncionario();
   };
 
   // Gerando dados padrão
   function comecarFuncionario() {
+    // Variavel para indentificar se o sistema ja tinha sido iniciado
+    localStorage.setItem("start", "yes");
+
     funcionarios = {
       "nome": "Ricardo",
       "bruto": "3500",
