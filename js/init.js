@@ -73,114 +73,7 @@ jQuery(document).ready(function ($) {
       }
     }
     console.log("Loop de apresentação feito");
-    //mostrarTabela();
   }
-
-  // function mostrarTabela(){
-  //   for (let i = 0; i <= localStorage.length; i++) {
-  //     f = JSON.parse(localStorage[i]);
-  //     bruto += f.bruto;
-  //     dep += f.dep;
-  //     inss += calculoINSS(f.bruto);
-  //     irrf += calculoIRRF(f.bruto, calculoINSS(f.bruto));
-  //     inssPatri += calculoInssPatri(f.bruto);
-  //     guiaInss += calculoGuiaInss(f.bruto);
-  //     fgts += calculoFGTS(f.bruto);
-  //     liquido += f.bruto - calculoINSS(f.bruto) - calculoIRRF(f.bruto, calculoINSS(f.bruto));
-  //   }
-    
-  //     html = "<tr><b>";
-  //     html += "<td></td>";
-  //     html += "<td>" + bruto + "</td>";
-  //     html += "<td>" + dep + "</td>";
-  //     html += "<td>" + inss + "</td>";
-  //     html += "<td>" + irrf + "</td>";
-  //     html += "<td>" + inssPatri + " (" + guiaInss + ")</td>";
-  //     html += "<td>" + fgts + "</td>";
-  //     html += "<td>" + liquido + "</td>";
-  //     html += "</b></tr>";
-
-  //     $("#resultados > div > table > tbody ").append(html)
-    
-  // }
-
-  // var total = {
-  //   bruto: 0,
-  //   dep: 0,
-  //   inss: 0,
-  //   irrf: 0,
-  //   inssPatri: 0,
-  //   guiaInss: 0,
-  //   fgts: 0,
-  //   liquido: 0
-  // }
-
-  // var total = [0, 0, 0, 0, 0, 0, 0, 0];
-
-  // function mostrarTabela() {
-  //   html = "<tr><b>";
-  //   html += "<td></td>";
-  //   html += "<td>" + total[0] + "</td>";
-  //   html += "<td>" + total[1] + "</td>";
-  //   html += "<td>" + total[2] + "</td>";
-  //   html += "<td>" + total[3] + "</td>";
-  //   html += "<td>" + total[4] + " (" + total[5] + ")</td>";
-  //   html += "<td>" + total[6] + "</td>";
-  //   html += "<td>" + total[7] + "</td>";
-  //   html += "</b></tr>";
-
-  //   $("#resultados > div > table > tbody ").append(html)
-  // }
-
-  // function totalTabela(f) {
-  //   total[0] += f.bruto;
-  //   total[1] += f.dep;
-  //   total[2] += calculoINSS(f.bruto);
-  //   total[3] += calculoIRRF(f.bruto, calculoINSS(f.bruto));
-  //   total[4] += calculoInssPatri(f.bruto);
-  //   total[5] += calculoGuiaInss(f.bruto);
-  //   total[6] += calculoFGTS(f.bruto);
-  //   total[7] += f.bruto - calculoINSS(f.bruto) - calculoIRRF(f.bruto, calculoINSS(f.bruto));
-
-  //   console.log("Total inscrementado");
-  // }
-
-  // total["bruto"] = 0;
-  // total["dep"] = 0;
-  // total["inss"] = 0;
-  // total["irrf"] = 0;
-  // total["inssPatri"] = 0;
-  // total["guiaInss"] = 0;
-  // total["fgts"] = 0;
-  // total["liquido"] = 0;
-
-  // function mostrarTabela(total) {
-  //   html = "<tr><b>";
-  //   html += "<td></td>";
-  //   html += "<td>" + total.bruto + "</td>";
-  //   html += "<td>" + total.dep + "</td>";
-  //   html += "<td>" + total.inss + "</td>";
-  //   html += "<td>" + total.irrf + "</td>";
-  //   html += "<td>" + total.inssPatri + " (" + total.guiaInss + ")</td>";
-  //   html += "<td>" + total.fgts + "</td>";
-  //   html += "<td>" + total.liquido + "</td>";
-  //   html += "</b></tr>";
-
-  //   $("#resultados > div > table > tbody ").append(html)
-  // }
-
-  // function totalTabela(f) {
-  //   total.bruto += f.bruto;
-  //   total.dep += f.dep;
-  //   total.inss += calculoINSS(f.bruto);
-  //   total.irrf += calculoIRRF(f.bruto, calculoINSS(f.bruto));
-  //   total.inssPatri += calculoInssPatri(f.bruto);
-  //   total.guiaInss += calculoGuiaInss(f.bruto);
-  //   total.fgts += calculoFGTS(f.bruto);
-  //   total.liquido += f.bruto - calculoINSS(f.bruto) - calculoIRRF(f.bruto, calculoINSS(f.bruto));
-
-  //   console.log("Total inscrementado");
-  // }
 
   // Apenas imprimir os funcionarios na tabela
   function mostrarFuncionario(f,id) {
@@ -208,13 +101,13 @@ jQuery(document).ready(function ($) {
     $("#resultados > div > table > tbody ").append(html)
   };
 
+  // Removendo a linha selecionada do HTML e deletando o funcionário do localStorage
   $("tr > td > a").click(function(){
     $(this).closest("tr").remove();
+    
     let func = $(this).attr('id');
     excluirFuncionario(func);
   });
-  
-  
 
   // Calculo feito a partir da tabela do contribuinte
   function calculoFGTS(valor) {
