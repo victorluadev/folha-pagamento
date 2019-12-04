@@ -28,27 +28,32 @@ jQuery(document).ready(function ($) {
     let x = localStorage.length;
     localStorage.setItem(x, JSON.stringify(vamos));
   }
-
   // Deletando o funcionário selecionado na tabela
   function excluirFuncionario(func) {
+    console.log("Excluiu - " + func);
     localStorage.removeItem(func);
   }
 
   // Tentando pegar dados passados
   try {
-    if (localStorage["start"] != "yes") {
+    if (sessionStorage["init"] != "yes") {
       comecarFuncionario();
     }
     console.log("Ta tudo certo");
     loopFuncionario();
   } catch (e) {
-    comecarFuncionario();
+    if (sessionStorage["init"] == "yes") {
+      console.log("OPAAA");
+    } else {
+      comecarFuncionario();
+    }
   };
 
   // Gerando dados padrão
   function comecarFuncionario() {
+    console.log("Iniciando o sistema...");
     // Variavel para indentificar se o sistema ja tinha sido iniciado
-    localStorage.setItem("start", "yes");
+    sessionStorage.setItem("init", "yes");
 
     funcionarios = {
       "nome": "Ricardo",
@@ -70,16 +75,18 @@ jQuery(document).ready(function ($) {
   // Buscando funcionarios
   // Segundo parâmetro para identificar o funcionário a ser excluido
   function loopFuncionario() {
+    //ordenar();
     for (let i = 0; i <= localStorage.length; i++) {
-      if(localStorage[i] != null) {
-        mostrarFuncionario(JSON.parse(localStorage[i]),localStorage.key(i));
+      if(localStorage[i] == null){
+        continue;
       }
+      mostrarFuncionario(JSON.parse(localStorage[i]), localStorage.key(i));
     }
     console.log("Loop de apresentação feito");
   }
-
+  
   // Apenas imprimir os funcionarios na tabela
-  function mostrarFuncionario(f,id) {
+  function mostrarFuncionario(f, id) {
     bruto = accounting.formatMoney(f.bruto, "R$", 2, ".", ",");
     inss = accounting.formatMoney(calculoINSS(f.bruto), "R$", 2, ".", ",");
     irrf = accounting.formatMoney(calculoIRRF(f.bruto, calculoINSS(f.bruto)), "R$", 2, ".", ",");
@@ -98,16 +105,16 @@ jQuery(document).ready(function ($) {
     html += "<td>" + inssPatri + " (" + guiaInss + ")</td>";
     html += "<td>" + fgts + "</td>";
     html += "<td>" + liquido + "</td>";
-    html += '<td><a class="btn-floating btn-large red" id="'+ id +'"><i class="material-icons">delete</i></a> </td>';
+    html += '<td><a class="btn-floating btn-large red" id="' + id + '"><i class="material-icons">delete</i></a> </td>';
     html += "</tr>";
 
     $("#resultados > div > table > tbody ").append(html)
   };
 
   // Removendo a linha selecionada do HTML e deletando o funcionário do localStorage
-  $("tr > td > a").click(function(){
+  $("tr > td > a").click(function () {
     $(this).closest("tr").remove();
-    
+
     let func = $(this).attr('id');
     excluirFuncionario(func);
   });
