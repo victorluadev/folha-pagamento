@@ -14,6 +14,7 @@ jQuery(document).ready(function ($) {
     gravarFuncionario(novo);
   });
 
+  // Salvando no localStorage
   function gravarFuncionario(f) {
     nome = f[0].value;
     bruto = f[1].value;
@@ -25,22 +26,23 @@ jQuery(document).ready(function ($) {
     };
 
     let x = localStorage.length;
-    localStorage[x] = JSON.stringify(vamos);
+    localStorage.setItem(x, JSON.stringify(vamos));
   }
 
-  function excluirFuncionario(f) {
-    localStorage.removeItem(f);
+  // Deletando o funcionário selecionado na tabela
+  function excluirFuncionario(func) {
+    localStorage.removeItem(func);
   }
 
   // Tentando pegar dados passados
   try {
     if ((localStorage[0] == null) && (localStorage[1] == null)) {
-      comecarFuncionario();
+      //comecarFuncionario();
     }
     console.log("Ta tudo certo");
     loopFuncionario();
   } catch (e) {
-    comecarFuncionario();
+    //comecarFuncionario();
   };
 
   // Gerando dados padrão
@@ -63,9 +65,12 @@ jQuery(document).ready(function ($) {
   }
 
   // Buscando funcionarios
+  // Segundo parâmetro para identificar o funcionário a ser excluido
   function loopFuncionario() {
     for (let i = 0; i <= localStorage.length; i++) {
-      mostrarFuncionario(JSON.parse(localStorage[i]));
+      if(localStorage[i] != null) {
+        mostrarFuncionario(JSON.parse(localStorage[i]),localStorage.key(i));
+      }
     }
     console.log("Loop de apresentação feito");
     //mostrarTabela();
@@ -176,8 +181,9 @@ jQuery(document).ready(function ($) {
 
   //   console.log("Total inscrementado");
   // }
+
   // Apenas imprimir os funcionarios na tabela
-  function mostrarFuncionario(f) {
+  function mostrarFuncionario(f,id) {
     bruto = accounting.formatMoney(f.bruto, "R$", 2, ".", ",");
     inss = accounting.formatMoney(calculoINSS(f.bruto), "R$", 2, ".", ",");
     irrf = accounting.formatMoney(calculoIRRF(f.bruto, calculoINSS(f.bruto)), "R$", 2, ".", ",");
@@ -196,7 +202,7 @@ jQuery(document).ready(function ($) {
     html += "<td>" + inssPatri + " (" + guiaInss + ")</td>";
     html += "<td>" + fgts + "</td>";
     html += "<td>" + liquido + "</td>";
-    html += '<td><a class="btn-floating btn-large red"><i class="material-icons">delete</i></a> </td>';
+    html += '<td><a class="btn-floating btn-large red" id="'+ id +'"><i class="material-icons">delete</i></a> </td>';
     html += "</tr>";
 
     $("#resultados > div > table > tbody ").append(html)
@@ -204,11 +210,13 @@ jQuery(document).ready(function ($) {
 
   $("tr > td > a").click(function(){
     $(this).closest("tr").remove();
+    let func = $(this).attr('id');
+    excluirFuncionario(func);
   });
   
   
 
-  // Calculo feito a parti da tabela do contribuinte
+  // Calculo feito a partir da tabela do contribuinte
   function calculoFGTS(valor) {
     return valor * 0.08;
   }
